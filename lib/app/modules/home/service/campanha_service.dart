@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:projetosocial/app/core/env.dart';
 import 'package:supabase/supabase.dart';
 import '../models/campanha_model.dart';
@@ -20,7 +21,7 @@ class CampanhaService {
       if (response == null) return null;
       return CampanhaModel.fromMap(response);
     } catch (e, stack) {
-      print("Erro ao salvar campanha: $e \nStack: $stack");
+      debugPrint("Erro ao salvar campanha: $e \nStack: $stack");
       return null;
     }
   }
@@ -37,7 +38,7 @@ class CampanhaService {
           .map((map) => CampanhaModel.fromMap(map))
           .toList();
     } catch (e, stack) {
-      print("Erro ao buscar campanhas: $e \nStack: $stack");
+      debugPrint("Erro ao buscar campanhas: $e \nStack: $stack");
       return [];
     }
   }
