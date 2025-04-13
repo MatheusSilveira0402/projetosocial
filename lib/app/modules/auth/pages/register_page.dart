@@ -53,7 +53,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: controller.nomeController,
                 decoration: const InputDecoration(
                   labelText: 'Nome',
-                  labelStyle: TextStyle(color: Colors.black),
                 ),
                 validator:
                     (value) => value == null || value.isEmpty ? 'Informe o nome' : null,
@@ -63,7 +62,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: controller.emailController,
                 decoration: const InputDecoration(
                   labelText: 'E-mail',
-                  labelStyle: TextStyle(color: Colors.black),
                 ),
                 keyboardType: TextInputType.emailAddress,
                 validator:
@@ -74,7 +72,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: controller.senhaController,
                 decoration: const InputDecoration(
                   labelText: 'Senha',
-                  labelStyle: TextStyle(color: Colors.black),
                 ),
                 obscureText: true,
                 validator:
@@ -85,7 +82,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: controller.telefoneController,
                 decoration: const InputDecoration(
                   labelText: 'Telefone',
-                  labelStyle: TextStyle(color: Colors.black),
                 ),
                 keyboardType: TextInputType.phone,
                 validator:
@@ -98,7 +94,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: const InputDecoration(
                   helperText: "ex: voluntário, instuição ou visitante",
                   labelText: 'Tipo de usuário',
-                  labelStyle: TextStyle(color: Colors.black),
                 ),
                 validator:
                     (value) =>

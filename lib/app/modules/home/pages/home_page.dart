@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:projetosocial/app/modules/home/models/campaign_model.dart';
 import 'package:projetosocial/app/modules/home/provider/campaign_provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
           return ListView.builder(
             itemCount: campanhas.length,
             itemBuilder: (context, index) {
-              final data = campanhas[index];
+              CampaignModel data = campanhas[index];
 
               return Card(
                 margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
