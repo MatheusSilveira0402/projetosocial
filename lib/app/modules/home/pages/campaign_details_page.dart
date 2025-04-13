@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CampaignDetailsPage extends StatelessWidget {
   const CampaignDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final doc = Modular.args.data as DocumentSnapshot;
-
-    final data = doc.data() as Map<String, dynamic>;
+    // Agora usamos um Map direto, sem Firebase
+    final data = Modular.args.data as Map<String, dynamic>;
 
     final title = data['title'] ?? '';
     final description = data['description'] ?? '';
     final types = (data['donationTypes'] as List<dynamic>).join(', ');
     final location = data['dropOffLocation'] ?? '';
     final contact = data['contact'] ?? '';
-    final endDate = DateTime.tryParse(data['endDate'])?.toLocal().toString().split(' ').first ?? '';
+    final endDate = data['endDate'] ?? '';
 
     return Scaffold(
       appBar: AppBar(title: const Text('Detalhes da Campanha')),
@@ -42,7 +40,8 @@ class CampaignDetailsPage extends StatelessWidget {
             Center(
               child: ElevatedButton.icon(
                 onPressed: () {
-                  final url = Uri.parse('https://wa.me/${contact.replaceAll(RegExp(r'[^0-9]'), '')}');
+                  final cleanNumber = contact.replaceAll(RegExp(r'[^0-9]'), '');
+                  final url = Uri.parse('https://wa.me/$cleanNumber');
                   Modular.to.pushNamed('/open', arguments: url);
                 },
                 icon: const Icon(Icons.phone),

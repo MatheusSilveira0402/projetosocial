@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:intl/intl.dart';
+import 'package:projetosocial/app/modules/home/controller/campaing_form_controller.dart';
 
 class CampaignFormPage extends StatefulWidget {
   const CampaignFormPage({super.key});
@@ -12,46 +12,8 @@ class CampaignFormPage extends StatefulWidget {
 
 class _CampaignFormPageState extends State<CampaignFormPage> {
   final _formKey = GlobalKey<FormState>();
-
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final _typesController = TextEditingController(); // lista separada por vírgula
-  final _locationController = TextEditingController();
-  final _contactController = TextEditingController();
-  DateTime? _endDate;
-
+  final controller = CampaingFormController();
   bool _loading = false;
-
-  Future<void> _saveCampaign() async {
-    if (!_formKey.currentState!.validate() || _endDate == null) return;
-
-    setState(() => _loading = true);
-
-    try {
-      final user = FirebaseAuth.instance.currentUser;
-
-      await FirebaseFirestore.instance.collection('campaigns').add({
-        'userId': user?.uid,
-        'title': _titleController.text.trim(),
-        'description': _descriptionController.text.trim(),
-        'donationTypes': _typesController.text.split(',').map((e) => e.trim()).toList(),
-        'dropOffLocation': _locationController.text.trim(),
-        'contact': _contactController.text.trim(),
-        'endDate': _endDate!.toIso8601String(),
-        'createdAt': DateTime.now().toIso8601String(),
-      });
-
-      Modular.to.pop(); // Volta pra Home
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erro ao salvar campanha: ${e.toString()}')),
-        );
-      }
-    } finally {
-      setState(() => _loading = false);
-    }
-  }
 
   Future<void> _pickEndDate() async {
     final selected = await showDatePicker(
@@ -62,8 +24,43 @@ class _CampaignFormPageState extends State<CampaignFormPage> {
     );
 
     if (selected != null) {
-      setState(() => _endDate = selected);
+      // Exibe a data no formato dd/MM/yyyy para o usuário
+      final displayDate = DateFormat('dd/MM/yyyy').format(selected);
+      controller.dataFimController.text = displayDate;
+
+      // Armazena a data no formato yyyyMMdd para uso interno
+      controller.dataFimRaw = DateFormat('yyyyMMdd').format(selected);
     }
+  }
+
+  Future<void> _saveCampaign() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _loading = true);
+
+
+
+    final sucesso = await controller.salvarCampanha();
+    if (sucesso) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Campanha salva com sucesso!')));
+      Modular.to.pop();
+    } else {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Erro ao salvar a campanha!')));
+    }
+
+    setState(() => _loading = false);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -77,19 +74,19 @@ class _CampaignFormPageState extends State<CampaignFormPage> {
           child: Column(
             children: [
               TextFormField(
-                controller: _titleController,
+                controller: controller.tituloController,
                 decoration: const InputDecoration(labelText: 'Título da campanha'),
                 validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
               ),
               const SizedBox(height: 12),
               TextFormField(
-                controller: _descriptionController,
+                controller: controller.descricaoController,
                 decoration: const InputDecoration(labelText: 'Descrição'),
                 maxLines: 3,
               ),
               const SizedBox(height: 12),
               TextFormField(
-                controller: _typesController,
+                controller: controller.tipoDoacaoController,
                 decoration: const InputDecoration(
                   labelText: 'Tipos de doação (separados por vírgula)',
                 ),
@@ -97,34 +94,28 @@ class _CampaignFormPageState extends State<CampaignFormPage> {
               ),
               const SizedBox(height: 12),
               TextFormField(
-                controller: _locationController,
+                controller: controller.localEntrega,
                 decoration: const InputDecoration(labelText: 'Local de entrega'),
                 validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
               ),
               const SizedBox(height: 12),
               TextFormField(
-                controller: _contactController,
+                controller: controller.contatos,
                 decoration: const InputDecoration(
                   labelText: 'Contato (WhatsApp, e-mail...)',
                 ),
                 validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
               ),
               const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _endDate == null
-                          ? 'Sem data selecionada'
-                          : 'Até: ${_endDate!.toLocal().toString().split(' ').first}',
-                    ),
-                  ),
-                  TextButton.icon(
-                    onPressed: _pickEndDate,
-                    icon: const Icon(Icons.calendar_today),
-                    label: const Text('Selecionar data'),
-                  ),
-                ],
+              TextFormField(
+                controller: controller.dataFimController,
+                decoration: const InputDecoration(
+                  labelText: 'Data de término (yyyyMMdd)',
+                  suffixIcon: Icon(Icons.calendar_today),
+                ),
+                readOnly: true,
+                onTap: _pickEndDate,
+                validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
               ),
               const SizedBox(height: 24),
               _loading
