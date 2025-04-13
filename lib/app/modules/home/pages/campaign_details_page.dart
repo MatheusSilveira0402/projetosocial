@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:projetosocial/app/modules/home/models/campanha_model.dart';
 
 class CampaignDetailsPage extends StatelessWidget {
   const CampaignDetailsPage({super.key});
@@ -7,14 +8,14 @@ class CampaignDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Agora usamos um Map direto, sem Firebase
-    final data = Modular.args.data as Map<String, dynamic>;
+    CampanhaModel data = Modular.args.data;
 
-    final title = data['title'] ?? '';
-    final description = data['description'] ?? '';
-    final types = (data['donationTypes'] as List<dynamic>).join(', ');
-    final location = data['dropOffLocation'] ?? '';
-    final contact = data['contact'] ?? '';
-    final endDate = data['endDate'] ?? '';
+    final title = data.titulo;
+    final description = data.descricao;
+    final types = data.tiposDoacao;
+    final location = data.localEntrega;
+    final contact = data.contato;
+    final endDate = data.dataFim;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Detalhes da Campanha')),
