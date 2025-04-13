@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:projetosocial/app/modules/home/models/campanha_model.dart';
-import 'package:projetosocial/app/modules/home/service/campanha_service.dart';
+import 'package:projetosocial/app/modules/home/models/campaign_model.dart';
+import 'package:projetosocial/app/modules/home/service/campaign_service.dart';
 
-class CampanhaProvider with ChangeNotifier {
-  final CampanhaService _service = CampanhaService();
+class CampaignProvider with ChangeNotifier {
+  final CampaignService _service = CampaignService();
 
-  List<CampanhaModel> _campanhas = [];
+  List<CampaignModel> _campanhas = [];
   bool _loading = false;
   String? _error;
 
-  List<CampanhaModel> get campanhas => _campanhas;
+  List<CampaignModel> get campanhas => _campanhas;
   bool get loading => _loading;
   String? get error => _error;
 
@@ -31,7 +31,7 @@ class CampanhaProvider with ChangeNotifier {
   }
 
   /// Criar nova campanha
-  Future<CampanhaModel?> criarCampanha(CampanhaModel campanha) async {
+  Future<CampaignModel?> criarCampanha(CampaignModel campanha) async {
     try {
       final novaCampanha = await _service.salvarCampanha(campanha);
       if (novaCampanha != null) {

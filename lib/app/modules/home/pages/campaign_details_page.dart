@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projetosocial/app/modules/home/models/campanha_model.dart';
+import 'package:projetosocial/app/modules/home/models/campaign_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CampaignDetailsPage extends StatelessWidget {
   const CampaignDetailsPage({super.key});
@@ -8,7 +9,7 @@ class CampaignDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Agora usamos um Map direto, sem Firebase
-    CampanhaModel data = Modular.args.data;
+    CampaignModel data = Modular.args.data;
 
     final title = data.titulo;
     final description = data.descricao;
@@ -40,10 +41,19 @@ class CampaignDetailsPage extends StatelessWidget {
             const SizedBox(height: 24),
             Center(
               child: ElevatedButton.icon(
-                onPressed: () {
-                  final cleanNumber = contact.replaceAll(RegExp(r'[^0-9]'), '');
+                onPressed: () async {
+                  final cleanNumber = contact;
                   final url = Uri.parse('https://wa.me/$cleanNumber');
-                  Modular.to.pushNamed('/open', arguments: url);
+                  try {
+                    await canLaunchUrl(url);
+                    await launchUrl(url, mode: LaunchMode.externalApplication);
+                  } catch (e, stack) {
+                    debugPrint("Erro: $e. Stack: $stack");
+                    if (!context.mounted)  return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Não foi possível abrir o WhatsApp')),
+                    );
+                  }
                 },
                 icon: const Icon(Icons.phone),
                 label: const Text('Entrar em contato'),

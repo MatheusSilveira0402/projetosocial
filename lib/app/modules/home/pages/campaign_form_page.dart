@@ -102,7 +102,7 @@ class _CampaignFormPageState extends State<CampaignFormPage> {
               TextFormField(
                 controller: controller.contatos,
                 decoration: const InputDecoration(
-                  labelText: 'Contato (WhatsApp, e-mail...)',
+                  labelText: 'Contato (WhatsApp)',
                 ),
                 validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
               ),
@@ -110,7 +110,7 @@ class _CampaignFormPageState extends State<CampaignFormPage> {
               TextFormField(
                 controller: controller.dataFimController,
                 decoration: const InputDecoration(
-                  labelText: 'Data de término (yyyyMMdd)',
+                  labelText: 'Data de término',
                   suffixIcon: Icon(Icons.calendar_today),
                 ),
                 readOnly: true,

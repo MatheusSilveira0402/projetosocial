@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projetosocial/app/modules/home/models/campanha_model.dart';
-import 'package:projetosocial/app/modules/home/provider/campanha_provider.dart';
+import 'package:projetosocial/app/modules/home/models/campaign_model.dart';
+import 'package:projetosocial/app/modules/home/provider/campaign_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class CampaingFormController {
@@ -23,11 +23,11 @@ class CampaingFormController {
     dataFimController.dispose();
   }
 
-  final CampanhaProvider _campanhaProvider = Modular.get<CampanhaProvider>();
+  final CampaignProvider _campanhaProvider = Modular.get<CampaignProvider>();
 
 
   Future<bool> salvarCampanha() async {
-    final campanhaModel = CampanhaModel(
+    final campanhaModel = CampaignModel(
       id: Uuid().v4(),
       titulo: tituloController.text,
       descricao: descricaoController.text,

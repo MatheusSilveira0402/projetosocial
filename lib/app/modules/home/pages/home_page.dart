@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:projetosocial/app/modules/home/provider/campanha_provider.dart';
+import 'package:projetosocial/app/modules/home/provider/campaign_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,18 +10,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late CampanhaProvider campanhaProvider;
+  late CampaignProvider campanhaProvider;
 
   @override
   void initState() {
     super.initState();
-    campanhaProvider = context.read<CampanhaProvider>();
+    campanhaProvider = context.read<CampaignProvider>();
     campanhaProvider.fetchCampanhas(); // Carrega campanhas ao iniciar
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<CampanhaProvider>();
+    final provider = context.watch<CampaignProvider>();
 
     return Scaffold(
       appBar: AppBar(

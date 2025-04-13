@@ -1,16 +1,16 @@
 import 'package:flutter/widgets.dart';
 import 'package:projetosocial/app/core/env.dart';
 import 'package:supabase/supabase.dart';
-import '../models/campanha_model.dart';
+import '../models/campaign_model.dart';
 
-class CampanhaService {
+class CampaignService {
   final _client = SupabaseClient(
     Env.supabaseUrl,
     Env.supabaseAnonKey
   );
 
   /// Salva uma nova campanha no Supabase
-  Future<CampanhaModel?> salvarCampanha(CampanhaModel campanha) async {
+  Future<CampaignModel?> salvarCampanha(CampaignModel campanha) async {
     try {
       final response = await _client
           .from('campanhas')
@@ -19,7 +19,7 @@ class CampanhaService {
           .maybeSingle();
 
       if (response == null) return null;
-      return CampanhaModel.fromMap(response);
+      return CampaignModel.fromMap(response);
     } catch (e, stack) {
       debugPrint("Erro ao salvar campanha: $e \nStack: $stack");
       return null;
@@ -27,7 +27,7 @@ class CampanhaService {
   }
 
   /// Busca todas as campanhas cadastradas
-  Future<List<CampanhaModel>> buscarCampanhas() async {
+  Future<List<CampaignModel>> buscarCampanhas() async {
     try {
       final response = await _client
           .from('campanhas')
@@ -35,7 +35,7 @@ class CampanhaService {
           .order('datafim', ascending: true);
 
       return (response as List)
-          .map((map) => CampanhaModel.fromMap(map))
+          .map((map) => CampaignModel.fromMap(map))
           .toList();
     } catch (e, stack) {
       debugPrint("Erro ao buscar campanhas: $e \nStack: $stack");

@@ -1,4 +1,4 @@
-class CampanhaModel {
+class CampaignModel {
   final String id ;
   final String titulo;
   final String descricao;
@@ -7,7 +7,7 @@ class CampanhaModel {
   final String contato;
   final String dataFim;
 
-  CampanhaModel({
+  CampaignModel({
     required this.id,
     required this.titulo,
     required this.descricao,
@@ -29,8 +29,8 @@ class CampanhaModel {
   };
 }
 
-factory CampanhaModel.fromMap(Map<String, dynamic> map) {
-  return CampanhaModel(
+factory CampaignModel.fromMap(Map<String, dynamic> map) {
+  return CampaignModel(
     id: map['id'] ?? '',
     titulo: map['titulo'] ?? '',
     descricao: map['descricao'] ?? '',
