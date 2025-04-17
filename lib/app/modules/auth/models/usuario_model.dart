@@ -3,7 +3,6 @@ class UsuarioModel {
   String nome = "";
   String email = "";
   String senha = "";
-  String tipo = "";
   String telefone = "";
 
   UsuarioModel({
@@ -11,7 +10,6 @@ class UsuarioModel {
     required this.nome,
     required this.email,
     required this.senha,
-    required this.tipo,
     required this.telefone,
   });
 
@@ -21,7 +19,6 @@ class UsuarioModel {
       nome: map['nome'],
       email: map['email'],
       senha: map['senha'],
-      tipo: map['tipo'],
       telefone: map['telefone'],
     );
   }
@@ -32,7 +29,6 @@ class UsuarioModel {
       'nome': nome,
       'email': email,
       'senha': senha,
-      'tipo': tipo,
       'telefone': telefone,
     };
   }

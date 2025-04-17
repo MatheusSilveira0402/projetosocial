@@ -28,7 +28,6 @@ class RegisterController {
       nome: nomeController.text.trim(),
       email: emailController.text.trim(),
       senha: senhaController.text.trim(),
-      tipo: tipoController.text.trim(),
       telefone: telefoneController.text.trim(),
     );
 

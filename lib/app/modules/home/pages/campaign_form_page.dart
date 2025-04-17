@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
+import 'package:projetosocial/app/core/extension_size.dart';
 import 'package:projetosocial/app/modules/home/controller/campaing_form_controller.dart';
 
 class CampaignFormPage extends StatefulWidget {
@@ -71,61 +72,82 @@ class _CampaignFormPageState extends State<CampaignFormPage> {
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: controller.tituloController,
-                decoration: const InputDecoration(labelText: 'Título da campanha'),
-                validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: controller.descricaoController,
-                decoration: const InputDecoration(labelText: 'Descrição'),
-                maxLines: 3,
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: controller.tipoDoacaoController,
-                decoration: const InputDecoration(
-                  labelText: 'Tipos de doação (separados por vírgula)',
-                ),
-                validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: controller.localEntrega,
-                decoration: const InputDecoration(labelText: 'Local de entrega'),
-                validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: controller.contatos,
-                decoration: const InputDecoration(
-                  labelText: 'Contato (WhatsApp)',
-                ),
-                validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: controller.dataFimController,
-                decoration: const InputDecoration(
-                  labelText: 'Data de término',
-                  suffixIcon: Icon(Icons.calendar_today),
-                ),
-                readOnly: true,
-                onTap: _pickEndDate,
-                validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
-              ),
-              const SizedBox(height: 24),
-              _loading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton.icon(
-                    onPressed: _saveCampaign,
-                    icon: const Icon(Icons.save),
-                    label: const Text('Salvar Campanha'),
+          child: Container(
+            margin: EdgeInsets.only(top: 30),
+            width: context.widthPct(1),
+            child: Column(
+              spacing: 20.0,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: context.widthPct(0.8),
+                  child: TextFormField(
+                    controller: controller.tituloController,
+                    decoration: const InputDecoration(labelText: 'Título da campanha'),
+                    validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
                   ),
-            ],
+                ),
+                SizedBox(
+                  width: context.widthPct(0.8),
+                  child: TextFormField(
+                    controller: controller.descricaoController,
+                    decoration: const InputDecoration(labelText: 'Descrição'),
+                    maxLines: 3,
+                  ),
+                ),
+                SizedBox(
+                  width: context.widthPct(0.8),
+                  child: TextFormField(
+                    controller: controller.tipoDoacaoController,
+                    decoration: const InputDecoration(
+                      labelText: 'Tipos de doação (separados por vírgula)',
+                    ),
+                    validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
+                  ),
+                ),
+                SizedBox(
+                  width: context.widthPct(0.8),
+                  child: TextFormField(
+                    controller: controller.localEntrega,
+                    decoration: const InputDecoration(labelText: 'Local de entrega'),
+                    validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
+                  ),
+                ),
+                SizedBox(
+                  width: context.widthPct(0.8),
+                  child: TextFormField(
+                    controller: controller.contatos,
+                    decoration: const InputDecoration(
+                      labelText: 'Contato (WhatsApp)',
+                    ),
+                    validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
+                  ),
+                ),
+                SizedBox(
+                  width: context.widthPct(0.8),
+                  child: TextFormField(
+                    controller: controller.dataFimController,
+                    decoration: const InputDecoration(
+                      labelText: 'Data de término',
+                      suffixIcon: Icon(Icons.calendar_today),
+                    ),
+                    readOnly: true,
+                    onTap: _pickEndDate,
+                    validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
+                  ),
+                ),
+                _loading
+                    ? const CircularProgressIndicator()
+                    : SizedBox(
+                      width: context.widthPct(0.8),
+                      child: ElevatedButton.icon(
+                        onPressed: _saveCampaign,
+                        icon: const Icon(Icons.save),
+                        label: const Text('Salvar Campanha'),
+                      ),
+                    ),
+              ],
+            ),
           ),
         ),
       ),
