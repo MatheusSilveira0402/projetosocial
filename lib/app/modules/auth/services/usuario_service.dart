@@ -1,13 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:projetosocial/app/core/env.dart';
+import 'package:projetosocial/app/modules/auth/controllers/register_controller.dart';
 import 'package:supabase/supabase.dart';
 
 import '../models/usuario_model.dart';
 
 class UsuarioService {
-  final _client = SupabaseClient(
-    Env.supabaseUrl,
-    Env.supabaseAnonKey
-  );
+  final _client = SupabaseClient(Env.supabaseUrl, Env.supabaseAnonKey);
+  final controller = RegisterController();
 
   Future<UsuarioModel?> login(String email, String senha) async {
     final response =
@@ -22,18 +22,21 @@ class UsuarioService {
     return UsuarioModel.fromMap(response);
   }
 
-  Future<UsuarioModel?> registrar(UsuarioModel usuario) async {
-  final novoUsuario = usuario;
+  Future<String?> registrar(UsuarioModel usuario) async {
+    try {
+      final response =
+          await _client.from('usuarios').insert(usuario.toMap()).select().maybeSingle();
 
-  final response = await _client
-      .from('usuarios')
-      .insert(novoUsuario.toMap())
-      .select()
-      .maybeSingle();
+      if (response == null) return 'Erro ao registrar usuário.';
 
-  if (response == null) return null;
-  return UsuarioModel.fromMap(response);
-}
+      return null; // sucesso
+    } catch (e) {
+      if (e is PostgrestException && e.code == '409') {
+        return 'Este e-mail já está cadastrado.';
+      }
+      return 'Erro inesperado. Tente novamente.';
+    }
+  }
 
   Future<void> logout() async {
     // logout local apenas

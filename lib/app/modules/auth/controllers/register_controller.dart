@@ -4,7 +4,6 @@ import 'package:projetosocial/app/modules/auth/models/usuario_model.dart';
 import 'package:projetosocial/app/modules/auth/providers/usuario_provider.dart';
 import 'package:uuid/uuid.dart';
 
-
 class RegisterController {
   final UsuarioProvider _usuarioProvider = Modular.get<UsuarioProvider>();
 
@@ -13,6 +12,7 @@ class RegisterController {
   final senhaController = TextEditingController();
   final telefoneController = TextEditingController();
   final tipoController = TextEditingController();
+  String erroString = "";
 
   void dispose() {
     nomeController.dispose();
@@ -31,6 +31,8 @@ class RegisterController {
       telefone: telefoneController.text.trim(),
     );
 
-    return await _usuarioProvider.registrar(novoUsuario);
+    final erro = await _usuarioProvider.registrar(novoUsuario);
+    erroString = erro ?? '';
+    return erro == null;
   }
 }

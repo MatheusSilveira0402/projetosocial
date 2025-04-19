@@ -23,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final sucesso = await controller.registrar();
 
     setState(() => _loading = false);
+    
 
     if (sucesso) {
       Modular.to.navigate('/home/');
@@ -30,7 +31,7 @@ class _RegisterPageState extends State<RegisterPage> {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Erro ao criar conta')));
+      ).showSnackBar(SnackBar(content: Text(controller.erroString)));
     }
   }
 

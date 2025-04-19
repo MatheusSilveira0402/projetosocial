@@ -17,19 +17,14 @@ class UsuarioProvider with ChangeNotifier {
     return true;
   }
 
-  Future<bool> registrar(UsuarioModel usuario) async {
-    try {
-      final user = await _service.registrar(usuario);
-      if (user == null) return false;
-    _usuarioLogado = user;
-    } catch (e) {
-      return false;
-    }
-    
-    
+  Future<String?> registrar(UsuarioModel usuario) async {
+  final erro = await _service.registrar(usuario);
+  if (erro == null) {
+    _usuarioLogado = usuario;
     notifyListeners();
-    return true;
   }
+  return erro; // retorna a mensagem de erro ou null
+}
 
   void logout() {
     _usuarioLogado = null;
