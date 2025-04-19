@@ -1,13 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:projetosocial/app/core/env.dart';
-import 'package:projetosocial/app/modules/auth/controllers/register_controller.dart';
 import 'package:supabase/supabase.dart';
 
 import '../models/usuario_model.dart';
 
 class UsuarioService {
   final _client = SupabaseClient(Env.supabaseUrl, Env.supabaseAnonKey);
-  final controller = RegisterController();
 
   Future<UsuarioModel?> login(String email, String senha) async {
     final response =

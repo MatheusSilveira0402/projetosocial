@@ -23,7 +23,7 @@ class UsuarioProvider with ChangeNotifier {
     _usuarioLogado = usuario;
     notifyListeners();
   }
-  return erro; // retorna a mensagem de erro ou null
+  return erro; 
 }
 
   void logout() {
