@@ -100,7 +100,7 @@ class _CampaignFormPageState extends State<CampaignFormPage> {
                   child: TextFormField(
                     controller: controller.tipoDoacaoController,
                     decoration: const InputDecoration(
-                      labelText: 'Tipos de doação (separados por vírgula)',
+                      labelText: 'Tipos de doação',
                     ),
                     validator: (v) => v == null || v.isEmpty ? 'Obrigatório' : null,
                   ),
